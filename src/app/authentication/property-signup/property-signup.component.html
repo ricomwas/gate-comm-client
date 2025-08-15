@@ -1,0 +1,160 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body text-left">
+              <h3 class="mb-1 dark">Property SignUp</h3>
+            </div>
+
+            <div class="media-right">
+              <button mat-icon-button (click)="onClose()">
+                <mat-icon>cancel</mat-icon>
+              </button>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="propertyRegForm">
+
+              <!-- Row 1 -->
+              <div class="row row-m-t">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="name">Property Name:</label>
+                    <input type="text" formControlName="name"
+                      [ngClass]="{'form-control': true,
+                        'is-invalid': !pf.name.valid && pf.name.touched,
+                        'is-valid': pf.name.valid}"
+                      class="form-control" placeholder="Property Name" autocomplete="name">
+
+                    @if (pf.name.errors?.['required'] && pf.name.touched) {
+                      <small class="form-text custom-invalid-feedback">Field is required</small>
+                    }
+                    @if (pf.name.errors?.['pattern'] && pf.name.touched) {
+                      <small class="form-text custom-invalid-feedback">
+                        Only texts and numbers allowed. No special characters!
+                      </small>
+                    }
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" formControlName="email"
+                      [ngClass]="{'form-control': true,
+                        'is-invalid': !pf['email'].valid && pf['email'].touched,
+                        'is-valid': pf['email'].valid}"
+                      class="form-control" placeholder="Email" autocomplete="email">
+
+                    @if (pf['email'].errors?.['required'] && pf['email'].touched) {
+                      <small class="form-text custom-invalid-feedback">Field is required</small>
+                    }
+                    @if (pf['email'].errors?.['email'] && pf['email'].touched) {
+                      <small class="help-block mt-1 text-danger">
+                        <i class="ft-alert-circle align-middle"></i>
+                        Email must be a valid email address
+                      </small>
+                    }
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="phone number">Phone Number:</label>
+                    <input type="number" formControlName="phone_number"
+                      [ngClass]="{'form-control': true,
+                        'is-invalid': !pf.phone_number.valid && pf.phone_number.touched,
+                        'is-valid': pf.phone_number.valid}"
+                      class="form-control" placeholder="phone number" autocomplete="phone_number">
+
+                    @if (pf.phone_number.errors?.['required'] && pf.phone_number.touched) {
+                      <small class="form-text custom-invalid-feedback">Field is required</small>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <!-- Row 2 -->
+              <div class="row row-m-t">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="property_location">Property Location:</label>
+                    <input type="text" formControlName="property_location"
+                      [ngClass]="{'form-control': true,
+                        'is-invalid': !pf.property_location.valid && pf.property_location.touched,
+                        'is-valid': pf.property_location.valid}"
+                      class="form-control" placeholder="Property Location" autocomplete="property_location">
+
+                    @if (pf.property_location.errors?.['required'] && pf.property_location.touched) {
+                      <small class="form-text custom-invalid-feedback">Field is required</small>
+                    }
+                    @if (pf.property_location.errors?.['pattern'] && pf.property_location.touched) {
+                      <small class="form-text custom-invalid-feedback">
+                        Only texts and numbers allowed. No special characters!
+                      </small>
+                    }
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" formControlName="password" class="form-control" placeholder="Password"
+                      [ngClass]="{'is-invalid': submitted && pf.password.invalid,
+                                  'is-valid': submitted && !pf.password.invalid}"
+                      required autocomplete="new-password">
+
+                    @if (pf.password.errors?.['minlength'] && (pf.password.invalid || pf.password.errors?.['required'])) {
+                      <small class="form-text custom-invalid-feedback">
+                        <i class="ft-alert-circle align-middle"></i>
+                        Password must be at least 8 characters.
+                      </small>
+                    }
+                    @if (pf.password.errors?.['pattern'] && (pf.password.invalid || pf.password.errors?.['required'])) {
+                      <small class="form-text custom-invalid-feedback">
+                        <i class="ft-alert-circle align-middle"></i>
+                        Password must have at least 1 Special Character, Numeric Digit, 1 Lowercase Alphabet, 1 Uppercase Alphabet.
+                      </small>
+                    }
+                  </div>
+                </div>
+
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="confirm password">Confirm Password</label>
+                    <input type="password" formControlName="confirm_password" class="form-control"
+                      placeholder="Confirm Password"
+                      [ngClass]="{'is-invalid': submitted && confirmPasswordInvalid,
+                                  'is-valid': !confirmPasswordInvalid}"
+                      required autocomplete="new-password">
+
+                    @if (pf.confirm_password.errors?.['mustMatch'] && (confirmPasswordInvalid || pf.password.errors?.['required'])) {
+                      <small class="form-text custom-invalid-feedback">
+                        <i class="ft-alert-circle align-middle"></i> Passwords must match
+                      </small>
+                    }
+                  </div>
+                </div>
+              </div>
+
+              <!-- Submit -->
+              <div class="form-group">
+                <button type="button" [disabled]="!propertyRegForm.valid" (click)="onSubmit()" class="btn btn-primary">
+                  Save
+                </button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

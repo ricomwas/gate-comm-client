@@ -1,0 +1,58 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  background-image: url('/assets/images/login_image_1.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* Overlay for content readability */
+#reg_content {
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.col-12 {
+  display: flex;
+  justify-content: center;
+}
+
+.content-header {
+  color: #fff;
+  font-weight: bold;
+  font-size: large;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.card {
+  background-color: rgba(20, 20, 20, 0.9); /* darker background */
+  color: #fff;
+  margin-bottom: 20px;
+  border-radius: 8px; /* optional: rounded corners */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4); /* optional: softer shadow */
+}
+
+.card-title {
+  color: #fff;
+  font-size: larger;
+  font-weight: bolder;
+  margin-bottom: 10px;
+}
+.back-link {
+  text-decoration: none;
+  opacity: 0.8;
+  transition: opacity 0.2s ease, text-decoration 0.2s ease;
+}
+
+.back-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+

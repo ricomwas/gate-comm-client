@@ -1,0 +1,176 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="card">
+
+        <div class="card-header">
+          <div class="media">
+            <div class="media-body text-left">
+              <h3 class="mb-1 dark">Resident SignUp</h3>
+            </div>
+            
+            <div class="media-right">
+              <button mat-icon-button (click)="onClose()">
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <div class="card-content">
+          <div class="card-body">
+            <form [formGroup]="residentRegForm">
+
+              <!-- NAME -->
+              <div class="row row-m-t">
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="name">Resident Name:</label>
+                    <input type="text" formControlName="name" class="form-control"
+                      [ngClass]="{
+                        'form-control': true,
+                        'is-invalid': residentRegForm.get('name')?.invalid && residentRegForm.get('name')?.touched,
+                        'is-valid': residentRegForm.get('name')?.valid
+                      }" placeholder="Resident name">
+
+                    <small *ngIf="residentRegForm.get('name')?.errors?.['required'] && residentRegForm.get('name')?.touched"
+                      class="form-text custom-invalid-feedback">Field is required
+                    </small>
+                    <small *ngIf="residentRegForm.get('name')?.errors?.['pattern'] && residentRegForm.get('name')?.touched"
+                      class="form-text custom-invalid-feedback">Only letters and numbers allowed. No special characters!
+                    </small>
+                  </div>
+                </div>
+
+                <!-- EMAIL -->
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="text" formControlName="email" class="form-control"
+                      [ngClass]="{
+                        'form-control': true,
+                        'is-invalid': residentRegForm.get('email')?.invalid && residentRegForm.get('email')?.touched,
+                        'is-valid': residentRegForm.get('email')?.valid
+                      }" placeholder="Email">
+
+                    <small *ngIf="residentRegForm.get('email')?.errors?.['required'] && residentRegForm.get('email')?.touched"
+                      class="form-text custom-invalid-feedback">Field is required
+                    </small>
+                    <small *ngIf="residentRegForm.get('email')?.errors?.['email'] && residentRegForm.get('email')?.touched"
+                      class="help-block mt-1 text-danger">
+                      <i class="ft-alert-circle align-middle"></i> Email must be a valid email address
+                    </small>
+                  </div>
+                </div>
+
+                <!-- PHONE -->
+                <div class="col-4">
+                  <div class="form-group">
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" formControlName="phone_number" class="form-control"
+                      [ngClass]="{
+                        'form-control': true,
+                        'is-invalid': residentRegForm.get('phone_number')?.invalid && residentRegForm.get('phone_number')?.touched,
+                        'is-valid': residentRegForm.get('phone_number')?.valid
+                      }" placeholder="Phone number">
+
+                    <small *ngIf="residentRegForm.get('phone_number')?.errors?.['required'] && residentRegForm.get('phone_number')?.touched"
+                      class="form-text custom-invalid-feedback">Field is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- HOUSE & COMMUNITY -->
+              <div class="row row-m-t">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="hse_number">House Number</label>
+                    <input type="text" formControlName="hse_number" class="form-control"
+                      [ngClass]="{
+                        'form-control': true,
+                        'is-invalid': residentRegForm.get('hse_number')?.invalid && residentRegForm.get('hse_number')?.touched,
+                        'is-valid': residentRegForm.get('hse_number')?.valid
+                      }" placeholder="House Number">
+
+                    <small *ngIf="residentRegForm.get('hse_number')?.errors?.['required'] && residentRegForm.get('hse_number')?.touched"
+                      class="form-text custom-invalid-feedback">Field is required
+                    </small>
+                    <small *ngIf="residentRegForm.get('hse_number')?.errors?.['pattern'] && residentRegForm.get('hse_number')?.touched"
+                      class="form-text custom-invalid-feedback">Only letters and numbers allowed. No special characters!
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="community">Community</label>
+                    <select formControlName="community_id" class="form-control"
+                      [ngClass]="{
+                        'form-control': true,
+                        'is-invalid': residentRegForm.get('community_id')?.invalid && residentRegForm.get('community_id')?.touched,
+                        'is-valid': residentRegForm.get('community_id')?.valid
+                      }">
+                      <option *ngFor="let p of props" [value]="p.commid">
+                        {{ p.propertyname }}
+                      </option>
+                    </select>
+                    <small *ngIf="residentRegForm.get('community_id')?.errors?.['required'] && residentRegForm.get('community_id')?.touched"
+                      class="form-text custom-invalid-feedback">Field is required
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PASSWORDS -->
+              <div class="row row-m-t">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" formControlName="password" class="form-control"
+                      placeholder="Password"
+                      [ngClass]="{
+                        'is-invalid': submitted && residentRegForm.get('password')?.invalid,
+                        'is-valid': submitted && residentRegForm.get('password')?.valid
+                      }" autocomplete="new-password">
+                    <small *ngIf="residentRegForm.get('password')?.errors?.['minlength']"
+                      class="form-text custom-invalid-feedback">
+                      Password must be at least 8 characters.
+                    </small>
+                    <small *ngIf="residentRegForm.get('password')?.errors?.['pattern']"
+                      class="form-text custom-invalid-feedback">
+                      Password must have at least 1 special character, number, lowercase & uppercase letter.
+                    </small>
+                  </div>
+                </div>
+
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="confirm_password">Confirm Password</label>
+                    <input type="password" formControlName="confirm_password" class="form-control"
+                      [ngClass]="{
+                        'is-invalid': submitted && confirmPasswordInvalid,
+                        'is-valid': !confirmPasswordInvalid
+                      }" placeholder="Confirm Password" autocomplete="new-password">
+                    <small *ngIf="residentRegForm.get('confirm_password')?.errors?.['mustMatch']"
+                      class="form-text custom-invalid-feedback">
+                      Passwords must match
+                    </small>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BUTTON -->
+              <div class="form-group">
+                <button type="button" (click)="onSubmit()" class="btn btn-primary">Save</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
