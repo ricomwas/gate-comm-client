@@ -16,7 +16,7 @@ export const APP_ROUTE: Route[] = [
         path: 'properties',
         canActivate: [AuthGuard],
         data: {
-          role: Role.Admin,
+          roles: [Role.PropertyManager, Role.SoftwareDeveloper]
         },
         loadChildren: () =>
           import('./properties/properties.routes').then((m) => m.PROPERTIES_ROUTE),
@@ -25,7 +25,7 @@ export const APP_ROUTE: Route[] = [
         path: 'residents',
         canActivate: [AuthGuard],
         data: {
-          role: Role.Admin,
+          roles: [Role.Resident, Role.SoftwareDeveloper]
         },
         loadChildren: () =>
           import('./residents/residents.routes').then((m) => m.RESIDENTS_ROUTE),
@@ -34,7 +34,7 @@ export const APP_ROUTE: Route[] = [
         path: 'admin',
         canActivate: [AuthGuard],
         data: {
-          role: Role.Admin,
+          roles: [Role.Admin, Role.SoftwareDeveloper]
         },
         loadChildren: () =>
           import('./admin/admin.routes').then((m) => m.ADMIN_ROUTE),
@@ -43,7 +43,7 @@ export const APP_ROUTE: Route[] = [
         path: 'teacher',
         canActivate: [AuthGuard],
         data: {
-          role: Role.Teacher,
+          role: [Role.Teacher, Role.SoftwareDeveloper]
         },
         loadChildren: () =>
           import('./teacher/teacher.routes').then((m) => m.TEACHER_ROUTE),
@@ -52,7 +52,7 @@ export const APP_ROUTE: Route[] = [
         path: 'student',
         canActivate: [AuthGuard],
         data: {
-          role: Role.Student,
+          roles: [Role.Student, Role.SoftwareDeveloper]
         },
         loadChildren: () =>
           import('./student/student.routes').then((m) => m.STUDENT_ROUTE),

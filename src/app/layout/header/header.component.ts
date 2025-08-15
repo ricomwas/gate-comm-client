@@ -198,11 +198,19 @@ export class HeaderComponent
       localStorage.setItem('collapsed_menu', 'true');
     }
   }
-  logout() {
+ /*  logout() {
     this.subs.sink = this.authService.logout().subscribe((res) => {
       if (!res.success) {
         this.router.navigate(['/authentication/signin']);
       }
     });
+  } */
+
+  logout() { 
+      this.subs.sink = this.authService.logout().subscribe((success) => {
+        if (!success) { // Since success is a boolean
+          this.router.navigate(['/authentication/signin']);
+        }
+      });
   }
 }

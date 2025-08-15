@@ -9,7 +9,7 @@
       "groupTitle": true,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["ADMIN", "Software Developer"],
       "submenu": []
     },
 
@@ -22,7 +22,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["ADMIN", "Software Developer"],
       "submenu": [
         {
           "path": "/admin/dashboard/main",
@@ -59,7 +59,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["Property Manager", "Software Developer"],
       "submenu": [
         {
           "path": "/properties/property-dash",
@@ -96,7 +96,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["Resident"],
       "submenu": [
         {
           "path": "/residents/resident-dash",
@@ -145,7 +145,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["TEACHER"],
+      "role": ["TEACHER", "Software Developer"],
       "submenu": []
     },
     {
@@ -169,7 +169,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["ADMIN","Software Developer"],
       "submenu": [
         {
           "path": "/authentication/signin",
@@ -254,7 +254,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["ADMIN","Software Developer"],
       "submenu": [
         {
           "path": "/extra-pages/blank",
@@ -279,7 +279,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["ADMIN"],
+      "role": ["ADMIN", "Software Developer"],
       "submenu": [
         {
           "path": "/multilevel/first1",

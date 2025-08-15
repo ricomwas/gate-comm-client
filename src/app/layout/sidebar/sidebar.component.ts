@@ -152,13 +152,21 @@ export class SidebarComponent
       this.renderer.addClass(this.document.body, 'submenu-closed');
     }
   }
-  logout() {
+  /* logout() {
     this.subs.sink = this.authService.logout().subscribe((res) => {
       if (!res.success) {
         this.router.navigate(['/authentication/signin']);
       }
     });
-  }
+  } */
+  
+  logout() { 
+      this.subs.sink = this.authService.logout().subscribe((success) => {
+        if (!success) { // Since success is a boolean
+          this.router.navigate(['/authentication/signin']);
+        }
+      });
+    }
 
   capitalizeString(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();

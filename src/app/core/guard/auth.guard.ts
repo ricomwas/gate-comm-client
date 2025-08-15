@@ -1,38 +1,31 @@
 import { Injectable } from '@angular/core';
-import {
-  Router,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 
-import { LocalStorageService } from '@shared/services';
+import { AuthService } from '../service/auth.service';
+import { Role } from '@core/models/role';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard {
-  constructor(private router: Router, private store: LocalStorageService) {}
+  constructor(private authService: AuthService, private router: Router) { }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const currentUser = this.store.get('currentUser');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    const currentUser = this.authService.currentUserValue;
+
+   console.log('CurrUser', currentUser);
+    
+
     if (currentUser) {
-      const userRole = currentUser.roles?.[0]?.name; // Optional chaining to safely access the role
-      // If no role exists, you might want to handle it (e.g., redirect or show an error)
-      if (!userRole) {
-        this.router.navigate(['/authentication/signin']);
-        return false;
-      }
-
-      // Check if the route requires a specific role and if the user's role matches
-      if (route.data['role'] && route.data['role'].indexOf(userRole) === -1) {
-        // If the role does not match, navigate to the signin page
+      const userRole = currentUser.usertype_role;
+      if (route.data['role'] && !route.data['role'].includes(userRole)) {
         this.router.navigate(['/authentication/signin']);
         return false;
       }
       return true;
     }
 
-    // If no current user is found, redirect to signin
     this.router.navigate(['/authentication/signin']);
     return false;
   }

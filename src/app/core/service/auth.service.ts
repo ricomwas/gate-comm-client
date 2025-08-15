@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, merge, Observable, of, share, switchMap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { jwtDecode } from 'jwt-decode';
+import { catchError, map, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { URL } from '../../url-config';
+import { CustomJwtPayload } from '@core/models/custom-jwt';
 import { User } from '@core/models/interface';
 import { LocalStorageService } from '@shared/services';
 import { TokenService } from './token.service';
@@ -9,75 +15,147 @@ import { LoginService } from './login.service';
   providedIn: 'root',
 })
 export class AuthService {
-  user$ = new BehaviorSubject<User>({});
+  ACCESS__TOKEN = 'access_token';
+  REFRESH__TOKEN = 'refresh_token';
 
-  private change$ = merge(this.tokenService.change()).pipe(
-    switchMap(() => {
-      return this.assignUser(this.user$);
-    }),
-    share()
-  );
+  private currentUserSubject: BehaviorSubject<any | null> ;
+  private currentUser$: Observable<any | null>;
 
   constructor(
-    private tokenService: TokenService,
-    private loginService: LoginService,
-    private store: LocalStorageService
-  ) {}
-
-  public get currentUserValue(): User {
-    return this.store.get('currentUser');
+    private http: HttpClient, 
+    private router: Router
+  ) {
+    // You should get the user from the decoded token, not from 'curr_user'
+    const token = localStorage.getItem(this.ACCESS__TOKEN);
+    let user = null;
+    if (token) {
+      try {
+        const decodedToken = jwtDecode<CustomJwtPayload>(token);
+        // Correctly reconstruct the user object from the decoded token
+        user = {
+          curr_user: decodedToken.curr_user,
+          username: decodedToken.username,
+          usertype_id: decodedToken.usertype_id,
+          usertype_role: decodedToken.usertype_role,
+          comm_id: decodedToken.comm_id
+        };
+      } catch (e) {
+        // Token is invalid, so clear it
+        localStorage.clear();
+      }
+    }
+    
+    this.currentUserSubject = new BehaviorSubject<any | null>(user);
+    this.currentUser$ = this.currentUserSubject.asObservable();
   }
+
   change() {
-    return this.change$;
+    return this.currentUser$;
   }
 
-  login(username: string, password: string, rememberMe = false) {
-    return this.loginService.login(username, password, rememberMe).pipe(
-      switchMap((response) => {
-        const returnValue = JSON.parse(JSON.stringify(response))['token'];
-        this.tokenService.set(returnValue);
-        const roleData: [] = JSON.parse(JSON.stringify(response))['user'][
-          'roles'
-        ];
-        roleData.sort((a: any, b: any) => {
-          const aPri: number = a['priority'];
-          const bPri: number = b['priority'];
-          if (aPri > bPri) return 1;
-          else if (aPri < bPri) return -1;
-          else return 0;
-        });
-        this.tokenService.roleArray = roleData;
-        this.tokenService.permissionArray = JSON.parse(
-          JSON.stringify(response)
-        )['user']['permissions'];
+  // Decode the token and store user data
+  private decodeAndStoreUserData(token: string) {
+    const decodedToken = jwtDecode<CustomJwtPayload>(token);
+    console.log('DECODED TOKEN', decodedToken);
 
-        this.user$.next(JSON.parse(JSON.stringify(response))['user']);
-        this.store.set('currentUser', response.user);
-
-        // Store role names in a new array
-        const roleNames = this.tokenService.roleArray.map(
-          (role: { name: string }) => role.name
-        );
-
-        const roleNamesJSON = JSON.stringify(roleNames);
-
-        // Store the JSON string in LocalStorage
-        this.store.set('roleNames', roleNamesJSON);
-
-        return of(response); // Return the response to be handled in the component
+    console.log('DECODED TOKEN usertype_role:', decodedToken.usertype_role);
+    
+    // Create a simple user object from the decoded token
+    const userObject = {
+      curr_user: decodedToken.curr_user,
+      username: decodedToken.username,
+      usertype_id: decodedToken.usertype_id,
+      usertype_role: decodedToken.usertype_role,
+      comm_id: decodedToken.comm_id,
+    };
+    
+    // Store a single user object stringified in local storage
+    localStorage.setItem('curr_user', JSON.stringify(userObject));
+    
+    // Set the current user value to the BehaviorSubject
+    this.currentUserSubject.next(userObject);
+  }
+  
+  signinUser(email: string, password: string): Observable<boolean> {
+    return this.http.post<any>(`${URL}/signin`, { email, password }).pipe(
+      map((response) => {
+        if (response && response.access_token) {
+          localStorage.setItem(this.ACCESS__TOKEN, response.access_token);
+          localStorage.setItem(this.REFRESH__TOKEN, response.refresh_token);
+          this.decodeAndStoreUserData(response.access_token);
+          return true;
+        }
+        return false;
+      }),
+      catchError((error) => {
+        console.error('Login error', error);
+        throw error;
       })
     );
   }
 
-  logout() {
-    // remove user from local storage to log user out
-    this.store.clear();
-    // this.currentUserSubject.next(this.currentUserValue);
-    return of({ success: false });
+  isAuthenticated(): boolean {
+    return !!localStorage.getItem(this.ACCESS__TOKEN);
   }
 
-  assignUser(user: BehaviorSubject<User>): Observable<User> {
-    this.user$.next(this.currentUserValue); // Update the user$ BehaviorSubject with the new value
-    return this.user$.asObservable(); // Return an observable that emits the new user value
+  logout(): Observable<boolean> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getRefreshToken()}`,
+    });
+
+    return this.http.post<any>(
+      `${URL}/logout`,
+      { refresh_token: this.getRefreshToken() },
+      { headers: headers }
+    ).pipe(
+      tap(() => this.doLogoutUser()),
+      map(() => true),
+      catchError((error) => {
+        console.error('Logout error', error);
+        throw error;
+      })
+    );
+  }
+
+  refreshToken(): Observable<void> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.getRefreshToken()}`,
+    });
+
+    return this.http.post<any>(
+      `${URL}/refresh`,
+      { refresh_token: this.getRefreshToken() },
+      { headers: headers }
+    ).pipe(
+      tap((response) => {
+        this.storeJwtToken(response.access_token);
+      }),
+      catchError((error) => {
+        console.error('Token refresh error', error);
+        throw error;
+      })
+    );
+  }
+
+  private storeJwtToken(access_token: string): void {
+    localStorage.setItem(this.ACCESS__TOKEN, access_token);
+  }
+
+  private getRefreshToken(): string | null {
+    return localStorage.getItem(this.REFRESH__TOKEN);
+  }
+
+  private doLogoutUser(): void {
+    localStorage.removeItem(this.ACCESS__TOKEN);
+    localStorage.removeItem(this.REFRESH__TOKEN);
+    localStorage.removeItem('curr_user');
+    this.currentUserSubject.next(null); 
+  }
+
+  // Get current user value
+  get currentUserValue(): any {
+    return this.currentUserSubject.value;
   }
 }
