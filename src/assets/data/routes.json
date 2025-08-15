@@ -51,6 +51,92 @@
       ]
     },
     {
+      "path": "",
+      "title": "Properties Menu",
+      "iconType": "material-icons-outlined",
+      "icon": "business_center",
+      "class": "menu-toggle",
+      "groupTitle": false,
+      "badge": "",
+      "badgeClass": "",
+      "role": ["ADMIN"],
+      "submenu": [
+        {
+          "path": "/properties/property-dash",
+          "title": "Properties Dash",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": [""],
+          "submenu": []
+        },
+        {
+          "path": "/properties/create-users",
+          "title": "Create Your Property Users",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": [""],
+          "submenu": []
+        }
+      ]
+    },
+    {
+      "path": "",
+      "title": "Residents Menu",
+      "iconType": "material-icons-outlined",
+      "icon": "add_home_work",
+      "class": "menu-toggle",
+      "groupTitle": false,
+      "badge": "",
+      "badgeClass": "",
+      "role": ["ADMIN"],
+      "submenu": [
+        {
+          "path": "/residents/resident-dash",
+          "title": "Residents Dash",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": [""],
+          "submenu": []
+        },
+        {
+          "path": "/residents/resident-visit",
+          "title": "Create a Visit",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": [""],
+          "submenu": []
+        },
+        {
+          "path": "/residents/list_residents",
+          "title": "Lists Residents",
+          "iconType": "",
+          "icon": "",
+          "class": "ml-menu",
+          "groupTitle": false,
+          "badge": "",
+          "badgeClass": "",
+          "role": [""],
+          "submenu": []
+        }
+      ]
+    },
+    {
       "path": "/teacher/dashboard",
       "title": "MENUITEMS.TEACHER.LIST.DASHBOARD",
       "iconType": "material-icons-outlined",

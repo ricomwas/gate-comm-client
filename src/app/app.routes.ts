@@ -12,7 +12,24 @@ export const APP_ROUTE: Route[] = [
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: '/authentication/signin', pathMatch: 'full' },
-
+      {
+        path: 'properties',
+        canActivate: [AuthGuard],
+        data: {
+          role: Role.Admin,
+        },
+        loadChildren: () =>
+          import('./properties/properties.routes').then((m) => m.PROPERTIES_ROUTE),
+      },
+      {
+        path: 'residents',
+        canActivate: [AuthGuard],
+        data: {
+          role: Role.Admin,
+        },
+        loadChildren: () =>
+          import('./residents/residents.routes').then((m) => m.RESIDENTS_ROUTE),
+      },
       {
         path: 'admin',
         canActivate: [AuthGuard],

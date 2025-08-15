@@ -1,4 +1,4 @@
-const url = 'http://127.0.0.1:6003';
+const url = 'https://api.salamahub.co.ke';
 
 export const environment = {
   production: true,
