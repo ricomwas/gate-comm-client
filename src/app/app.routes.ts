@@ -43,7 +43,7 @@ export const APP_ROUTE: Route[] = [
         path: 'teacher',
         canActivate: [AuthGuard],
         data: {
-          role: [Role.Teacher, Role.SoftwareDeveloper]
+          roles: [Role.Teacher, Role.SoftwareDeveloper]
         },
         loadChildren: () =>
           import('./teacher/teacher.routes').then((m) => m.TEACHER_ROUTE),

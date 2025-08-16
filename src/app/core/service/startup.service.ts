@@ -10,51 +10,62 @@ import { User } from '@core/models/interface';
 export class StartupService {
   constructor(
     private rolesService: NgxRolesService,
-    private permissonsService: NgxPermissionsService,
+    private permissionsService: NgxPermissionsService,
     private authService: AuthService
   ) {}
 
+  /**
+   * Called during app startup to initialize user roles and permissions
+   */
   load() {
     return this.authService
       .change()
       .pipe(
         tap((user: User | null) => {
           if (user) {
-            this.setPermissions(user);
+            this.setRoleAndPermissions(user);
           } else {
-            // Flush permissions if the user logs out
+            // If user logs out, clear everything
             this.rolesService.flushRoles();
-            this.permissonsService.flushPermissions();
+            this.permissionsService.flushPermissions();
           }
         })
       )
       .subscribe();
   }
 
-  private setPermissions(user: User) {
-    // Clear old roles and permissions first
-    this.permissonsService.flushPermissions();
+  /**
+   * Registers the user role and its permissions into ngx-permissions
+   */
+  private setRoleAndPermissions(user: User) {
+    // Reset old roles and permissions
+    this.permissionsService.flushPermissions();
     this.rolesService.flushRoles();
 
-    const rolePermissions: any = {};
-    const permissions: string[] = [];
+    // Handle single role from token (usertype_role)
+    if (user.usertype_role) {
+      const roleName = user.usertype_role;
 
-    // Ensure the roles property exists and is an array before trying to iterate.
+      // Gather permissions if provided (for future support)
+      const rolePermissions = Array.isArray(user.permissions) ? user.permissions : [];
+
+      this.rolesService.addRole(roleName, rolePermissions);
+      this.permissionsService.loadPermissions(rolePermissions);
+
+      console.log(`[StartupService] Loaded role: ${roleName}`, rolePermissions);
+    }
+
+    // Handle multiple roles if present in user.roles[]
     if (user.roles && Array.isArray(user.roles)) {
-      user.roles.forEach((e: any) => {
-        const name = e['name'];
-        if (name && e.permissions && Array.isArray(e.permissions)) {
-          // Add permissions to a single flat list
-          permissions.push(...e.permissions);
-          // Map role name to its permissions
-          rolePermissions[name] = e.permissions;
+      user.roles.forEach((role: any) => {
+        if (role?.name) {
+          const rolePermissions = Array.isArray(role.permissions) ? role.permissions : [];
+          this.rolesService.addRole(role.name, rolePermissions);
+          this.permissionsService.addPermission(rolePermissions);
+
+          console.log(`[StartupService] Loaded role: ${role.name}`, rolePermissions);
         }
       });
     }
-
-    // Load all unique permissions at once
-    this.permissonsService.loadPermissions(permissions);
-    // Add all roles with their specific permissions
-    this.rolesService.addRolesWithPermissions(rolePermissions);
   }
 }
