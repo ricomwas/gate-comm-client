@@ -88,7 +88,7 @@ export class SigninComponent
             if (role === Role.Admin) {
               this.router.navigate(['/admin/home']);
             } else if (role === Role.PropertyManager) {
-              this.router.navigate(['/properties/property-dash']);
+              this.router.navigate(['/properties/dashboard']);
             } else if (role === Role.Resident) {
               this.router.navigate(['/residents/resident-dash']);
             } else if (role === Role.SoftwareDeveloper) {

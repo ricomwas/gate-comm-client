@@ -1,11 +1,12 @@
+import { Page404Component } from '../authentication/page404/page404.component';
 import { Route } from '@angular/router';
-import { Page404Component } from 'app/authentication/page404/page404.component';
+import { DashboardComponent } from './dashboard/dashboard/dashboard/dashboard.component';
+
 
 export const ADMIN_ROUTE: Route[] = [
   {
-    path: 'dashboard',
-    loadChildren: () =>
-      import('./dashboard/dashboard.routes').then((m) => m.DASHBOARD_ROUTE),
+      path: 'dashboard',
+      component: DashboardComponent,
   },
   { path: '**', component: Page404Component },
 ];

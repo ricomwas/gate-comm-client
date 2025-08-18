@@ -145,7 +145,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["TEACHER", "Software Developer"],
+      "role": ["Property Manager", "Software Developer"],
       "submenu": []
     },
     {
@@ -157,7 +157,7 @@
       "groupTitle": false,
       "badge": "",
       "badgeClass": "",
-      "role": ["STUDENT", "Software Developer"],
+      "role": ["Resident", "Software Developer"],
       "submenu": []
     },
     {
