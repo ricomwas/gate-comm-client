@@ -50,9 +50,49 @@
         }
       ]
     },
+
+    {
+      "path": "/property-dashboards/prop-dash",
+      "title": "Home",
+      "iconType": "material-icons-outlined",
+      "icon": "home",
+      "class": "",
+      "groupTitle": false,
+      "badge": "",
+      "badgeClass": "",
+      "role": ["Property Manager", "Software Developer"],
+      "submenu": []
+    }, 
+
+    {
+      "path": "/residents-dashboard/res-dash",
+      "title": "Home",
+      "iconType": "material-icons-outlined",
+      "icon": "home",
+      "class": "",
+      "groupTitle": false,
+      "badge": "",
+      "badgeClass": "",
+      "role": ["Resident", "Software Developer"],
+      "submenu": []
+    }, 
+
+    {
+      "path": "/staff-dashboards/staff-dash",
+      "title": "Home",
+      "iconType": "material-icons-outlined",
+      "icon": "home",
+      "class": "",
+      "groupTitle": false,
+      "badge": "",
+      "badgeClass": "",
+      "role": ["Staff", "Software Developer"],
+      "submenu": []
+    },
+
     {
       "path": "",
-      "title": "Properties Menu",
+      "title": "Property Duties",
       "iconType": "material-icons-outlined",
       "icon": "business_center",
       "class": "menu-toggle",
@@ -62,8 +102,8 @@
       "role": ["Property Manager", "Software Developer"],
       "submenu": [
         {
-          "path": "/properties/property-dash",
-          "title": "Properties Dash",
+          "path": "/properties/create-users",
+          "title": "create-users",
           "iconType": "",
           "icon": "",
           "class": "ml-menu",
@@ -74,8 +114,8 @@
           "submenu": []
         },
         {
-          "path": "/properties/create-users",
-          "title": "Create Your Property Users",
+          "path": "/properties/list-users",
+          "title": "list-users",
           "iconType": "",
           "icon": "",
           "class": "ml-menu",

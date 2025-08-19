@@ -88,13 +88,13 @@ export class SigninComponent
             if (role === Role.Admin) {
               this.router.navigate(['/admin/home']);
             } else if (role === Role.PropertyManager) {
-              this.router.navigate(['/properties/dashboard']);
+              this.router.navigate(['/property-dashboards/prop-dash']);
             } else if (role === Role.Resident) {
-              this.router.navigate(['/residents/resident-dash']);
+              this.router.navigate(['/residents-dashboard/res-dash']);
             } else if (role === Role.SoftwareDeveloper) {
               this.router.navigate(['/admin/dashboard']);
             } else if (role === Role.Staff) {
-              this.router.navigate(['/resident/resident-dash']);
+              this.router.navigate(['/staff-dashboards/staff-dash']);
             } else {
               this.router.navigate(['/authentication/signin']);
             }

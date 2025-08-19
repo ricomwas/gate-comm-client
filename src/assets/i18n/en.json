@@ -1,6 +1,6 @@
 {
   "LOGIN": {
-    "TITLE": "Welcome to Smart"
+    "TITLE": "Welcome to Salamahub"
   },
   "MENUITEMS": {
     "MAIN": {
@@ -21,6 +21,23 @@
         "DASHBOARD2": "Dashboard 2",
         "TEACHER-DASHBOARD": "Teacher Dashboard",
         "STUDENT-DASHBOARD": "Student Dashboard"
+      }
+    },
+    "PROPERTY MANAGER": {
+      "TEXT": "Property Manager",
+      "LIST": {
+        "SHOW-Dash": "Property Dash",
+        "ADD-Users": "Add Users",
+        "List-Users": "List Users"
+      }
+    },
+    "RESIDENT": {
+      "TEXT": "Residents",
+      "LIST": {
+        "ALL-Resident": "All Resident",
+        "ADD-Resident": "Add Resident",
+        "LIST-Resident": "List Resident",
+        "ADD-Visit": "Add Visit"
       }
     },
     "TEACHERS": {

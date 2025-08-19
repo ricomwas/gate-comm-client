@@ -5,13 +5,40 @@ import { AuthLayoutComponent } from './layout/app-layout/auth-layout/auth-layout
 import { Page404Component } from './authentication/page404/page404.component';
 import { Role } from '@core';
 
-export const APP_ROUTE: Route[] = [
+export const APP_ROUTE: Route[] = [ 
   {
     path: '',
     component: MainLayoutComponent,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: '/authentication/signin', pathMatch: 'full' },
+      {
+        path: 'property-dashboards',
+        canActivate: [AuthGuard],
+        data: {
+          roles: [Role.PropertyManager, Role.SoftwareDeveloper]
+        },
+        loadChildren: () =>
+          import('./property-dashboards/prop.routes').then((m) => m.PROPDASH_ROUTE),
+      },
+      {
+        path: 'residents-dashboard',
+        canActivate: [AuthGuard],
+        data: {
+          roles: [Role.Resident, Role.SoftwareDeveloper]
+        },
+        loadChildren: () =>
+          import('./residents-dashboard/residents-dash.routes').then((m) => m.RESIDENTSDASH_ROUTE),
+      },
+      {
+        path: 'staff-dashboards',
+        canActivate: [AuthGuard],
+        data: {
+          roles: [Role.Resident, Role.SoftwareDeveloper]
+        },
+        loadChildren: () =>
+          import('./staff-dashboards/staff.routes').then((m) => m.STAFF_ROUTE),
+      },
       {
         path: 'properties',
         canActivate: [AuthGuard],

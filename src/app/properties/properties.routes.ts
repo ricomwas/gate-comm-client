@@ -1,16 +1,11 @@
 import { Page404Component } from '../authentication/page404/page404.component';
 import { Route } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { PropertiesDashComponent } from './properties-dash/properties-dash.component';
 import { CreateUsersComponent } from './create-users/create-users.component';
 import { ListUsersComponent } from './list-users/list-users.component';
 
 
 export const PROPERTIES_ROUTE: Route[] = [
-  {
-      path: 'dashboard',
-      component: DashboardComponent,
-    },
   {
     path: 'property-dash',
     component: PropertiesDashComponent,
