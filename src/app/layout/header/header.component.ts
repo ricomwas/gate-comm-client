@@ -205,12 +205,10 @@ export class HeaderComponent
       }
     });
   } */
-
   logout() { 
-      this.subs.sink = this.authService.logout().subscribe((success) => {
-        if (!success) { // Since success is a boolean
-          this.router.navigate(['/authentication/signin']);
-        }
-      });
+    this.subs.sink = this.authService.logout().subscribe(() => {
+      this.router.navigate(['/authentication/signin']);
+    });
   }
+
 }

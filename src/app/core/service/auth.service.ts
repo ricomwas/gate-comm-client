@@ -98,7 +98,7 @@ export class AuthService {
     return !!localStorage.getItem(this.ACCESS__TOKEN);
   }
 
-  logout(): Observable<boolean> {
+  /* logout(): Observable<boolean> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.getRefreshToken()}`,
@@ -107,6 +107,27 @@ export class AuthService {
     return this.http.post<any>(
       `${URL}/logout`,
       { refresh_token: this.getRefreshToken() },
+      { headers: headers }
+    ).pipe(
+      tap(() => this.doLogoutUser()),
+      map(() => true),
+      catchError((error) => {
+        console.error('Logout error', error);
+        throw error;
+      })
+    );
+  } */
+  
+  logout(): Observable<boolean> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      // **CRITICAL FIX: Use the ACCESS__TOKEN here**
+      Authorization: `Bearer ${this.getAccessToken()}`,
+    });
+
+    return this.http.post<any>(
+      `${URL}/logout`,
+      {},
       { headers: headers }
     ).pipe(
       tap(() => this.doLogoutUser()),
@@ -141,6 +162,10 @@ export class AuthService {
 
   private storeJwtToken(access_token: string): void {
     localStorage.setItem(this.ACCESS__TOKEN, access_token);
+  }
+
+  private getAccessToken(): string | null {
+    return localStorage.getItem(this.ACCESS__TOKEN);
   }
 
   private getRefreshToken(): string | null {

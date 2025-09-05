@@ -25,7 +25,7 @@ import { allIcons } from 'angular-feather/icons';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { appInitializerProviders } from '@core';
-import { ToastrModule } from 'ngx-toastr'
+import { provideToastr } from 'ngx-toastr';
 
 export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -36,6 +36,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(),
     provideRouter(APP_ROUTE),
     provideAnimations(),
+    provideToastr(),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     DirectionService,
     LanguageService,
@@ -77,10 +78,10 @@ export const appConfig: ApplicationConfig = {
       multi: true,
     },
     provideAnimationsAsync(),
-    importProvidersFrom(ToastrModule.forRoot({
+   /*  importProvidersFrom(ToastrModule.forRoot({
       timeOut: 10000,
       positionClass: 'toast-top-right',
       preventDuplicates: true,
-    })),
+    })), */
   ],
 };

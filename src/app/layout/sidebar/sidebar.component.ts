@@ -104,10 +104,10 @@ export class SidebarComponent
         });
       if (userRole === Role.Admin) {
         this.userType = this.capitalizeString(Role.Admin);
-      } else if (userRole === Role.Teacher) {
-        this.userType = this.capitalizeString(Role.Teacher);
-      } else if (userRole === Role.Student) {
-        this.userType = this.capitalizeString(Role.Student);
+      } else if (userRole === Role.Resident) {
+        this.userType = this.capitalizeString(Role.Resident);
+      } else if (userRole === Role.Staff) {
+        this.userType = this.capitalizeString(Role.Staff);
       } else {
         this.userType = this.capitalizeString(Role.Admin);
       }
@@ -160,13 +160,12 @@ export class SidebarComponent
     });
   } */
   
+  
   logout() { 
-      this.subs.sink = this.authService.logout().subscribe((success) => {
-        if (!success) { // Since success is a boolean
-          this.router.navigate(['/authentication/signin']);
-        }
-      });
-    }
+    this.subs.sink = this.authService.logout().subscribe(() => {
+      this.router.navigate(['/authentication/signin']);
+    });
+  }
 
   capitalizeString(str: string) {
     return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
