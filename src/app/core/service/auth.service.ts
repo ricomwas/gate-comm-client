@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -116,28 +116,31 @@ export class AuthService {
         throw error;
       })
     );
-  } */
+  }  */
   
   logout(): Observable<boolean> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      // **CRITICAL FIX: Use the ACCESS__TOKEN here**
-      Authorization: `Bearer ${this.getAccessToken()}`,
-    });
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${this.getAccessToken()}`,
+  });
 
-    return this.http.post<any>(
-      `${URL}/logout`,
-      {},
-      { headers: headers }
-    ).pipe(
-      tap(() => this.doLogoutUser()),
-      map(() => true),
-      catchError((error) => {
-        console.error('Logout error', error);
-        throw error;
-      })
-    );
-  }
+  return this.http.post<any>(
+    `${URL}/logout`,
+    {}, // body is not used in your API
+    { headers: headers }
+  ).pipe(
+    tap(() => this.doLogoutUser()),
+    map(() => true),
+    catchError((error) => {
+      console.error('Logout error', error);
+      this.doLogoutUser();
+      return of(false);
+    })
+  );
+}
+
+
+  
 
   refreshToken(): Observable<void> {
     const headers = new HttpHeaders({

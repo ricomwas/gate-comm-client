@@ -205,10 +205,10 @@ export class HeaderComponent
       }
     });
   } */
-  logout() { 
+ logout() {
     this.subs.sink = this.authService.logout().subscribe(() => {
       this.router.navigate(['/authentication/signin']);
     });
-  }
+ }
 
 }
