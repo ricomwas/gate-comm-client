@@ -5,6 +5,7 @@ import { of } from 'rxjs';
 import { LocalStorageService } from '@shared/services';
 import { JWT } from './JWT';
 const jwt = new JWT();
+const DEVICE_ID_KEY = 'device_id'
 
 @Injectable({
   providedIn: 'root',
@@ -113,5 +114,18 @@ export class LoginService {
 
   user() {
     return this.http.get<User>('/user');
+  }
+
+  getDeviceId(): string {
+    let deviceId = localStorage.getItem(DEVICE_ID_KEY);
+    if (!deviceId) {
+      deviceId = crypto.randomUUID();
+      localStorage.setItem(DEVICE_ID_KEY, deviceId);
+
+      console.log('DeviceID', deviceId);
+      
+    }
+
+    return deviceId;
   }
 }

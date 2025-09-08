@@ -23,7 +23,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient, 
-    private router: Router
+    private router: Router,
+    private login_service: LoginService
   ) {
     // You should get the user from the decoded token, not from 'curr_user'
     const token = localStorage.getItem(this.ACCESS__TOKEN);
@@ -77,7 +78,9 @@ export class AuthService {
   }
   
   signinUser(email: string, password: string): Observable<boolean> {
-    return this.http.post<any>(`${URL}/signin`, { email, password }).pipe(
+    const device_id = this.login_service.getDeviceId();
+
+    return this.http.post<any>(`${URL}/signin`, { email, password, device_id }).pipe(
       map((response) => {
         if (response && response.access_token) {
           localStorage.setItem(this.ACCESS__TOKEN, response.access_token);
