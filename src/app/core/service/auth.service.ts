@@ -124,12 +124,12 @@ export class AuthService {
   logout(): Observable<boolean> {
   const headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${this.getAccessToken()}`,
+    Authorization: `Bearer ${this.getRefreshToken()}`,
   });
 
   return this.http.post<any>(
     `${URL}/logout`,
-    {}, // body is not used in your API
+    {},
     { headers: headers }
   ).pipe(
     tap(() => this.doLogoutUser()),
@@ -143,9 +143,8 @@ export class AuthService {
 }
 
 
-  
 
-  refreshToken(): Observable<void> {
+refreshToken(): Observable<void> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.getRefreshToken()}`,
