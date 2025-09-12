@@ -50,6 +50,10 @@ export class SidebarComponent
   userType?: string;
   headerHeight = 60;
   currentRoute?: string;
+
+  // Start Here
+  currUser: any;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -91,6 +95,11 @@ export class SidebarComponent
     }
   }
   ngOnInit() {
+    const stored = localStorage.getItem('curr_user');
+    if (stored) {
+      this.currUser = JSON.parse(stored);
+      // console.log('Curr User:', this.currUser); 
+    }
     if (this.authService.currentUserValue) {
       const userRole = this.authService.currentUserValue.roles?.[0]?.name;
       this.userFullName = this.authService.currentUserValue.name;

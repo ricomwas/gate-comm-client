@@ -24,6 +24,8 @@ import { FeatherModule } from 'angular-feather';
 import { allIcons } from 'angular-feather/icons';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 import { appInitializerProviders } from '@core';
 import { provideToastr } from 'ngx-toastr';
 
@@ -37,6 +39,11 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTE),
     provideAnimations(),
     provideToastr(),
+    providePrimeNG({
+            theme: {
+                preset: Aura
+            }
+        }),
     { provide: LocationStrategy, useClass: HashLocationStrategy },
     DirectionService,
     LanguageService,

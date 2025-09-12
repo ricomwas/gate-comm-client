@@ -63,6 +63,9 @@ export class HeaderComponent
   docElement?: HTMLElement;
   isFullScreen = false;
 
+  // Start Here
+  currUser: any;
+
   constructor(
     @Inject(DOCUMENT) private document: Document,
     private renderer: Renderer2,
@@ -132,6 +135,11 @@ export class HeaderComponent
     },
   ];
   ngOnInit() {
+    const stored = localStorage.getItem('curr_user');
+    if (stored) {
+      this.currUser = JSON.parse(stored);
+      // console.log('Curr User:', this.currUser); 
+    }
     this.config = this.configService.configData;
 
     const userRole = this.authService.currentUserValue.roles?.[0]?.name;

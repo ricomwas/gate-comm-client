@@ -14,7 +14,47 @@
             <h2></h2>
           </div>
           <div class="body">
-            {{users_props | json}}
+            <!-- <p>{{users_props | json}}</p> -->
+            <div class="mb-4">
+                <p-button type="button" icon="pi pi-chevron-left" (click)="prev()" [disabled]="isFirstPage()" text />
+                <p-button type="button" icon="pi pi-refresh" (click)="reset()" text />
+                <p-button type="button" icon="pi pi-chevron-right" (click)="next()" [disabled]="isLastPage()" text />
+            </div>
+            <p-table
+              [value]="users_props"
+              stripedRows
+              [paginator]="true"
+              [rows]="5"
+              [first]="first"
+              [showCurrentPageReport]="true"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+              (onPage)="pageChange($event)"
+              [rowsPerPageOptions]="[10, 25, 50]"
+              [tableStyle]="{ 'min-width': '50rem' }">
+                  <ng-template #header>
+                      <tr>
+                          <th>Name</th>
+                          <th>Email</th>
+                          <th>Phone Number</th>
+                          <th>Assigned Role</th>
+                      </tr>
+                  </ng-template>
+                  <ng-template #body let-user>
+                      <tr>
+                          <td>{{ user.name }}</td>
+                          <td>{{ user.email }}</td>
+                          <td>{{ user.phone_number }}</td>
+                          <td>{{ user.usertype }}</td>
+                      </tr>
+                  </ng-template>
+                  <!-- <ng-template #paginatorleft>
+                      <p-button type="button" icon="pi pi-plus" text />
+                  </ng-template>
+                  <ng-template #paginatorright>
+                      <p-button type="button" icon="pi pi-cloud" text />
+                  </ng-template> -->
+            </p-table>
           </div>
         </div>
       </div>

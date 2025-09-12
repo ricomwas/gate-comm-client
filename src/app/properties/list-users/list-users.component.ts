@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { CustomService } from '@shared/services/custom.service';
 import { BreadcrumbComponent } from '@shared/components/breadcrumb/breadcrumb.component'
 import { JsonPipe } from '@angular/common';
+import { ImportsModule } from '../../imports';
 
 @Component({
   selector: 'app-list-users',
   standalone: true,
-  imports: [BreadcrumbComponent, JsonPipe],
+  imports: [BreadcrumbComponent, ImportsModule],
   templateUrl: './list-users.component.html',
   styleUrl: './list-users.component.scss'
 })
@@ -24,6 +25,10 @@ export class ListUsersComponent implements OnInit {
   users_temp_pass: any[] = [];
   loading = true;
   currUser: any;
+
+  first = 0;
+
+  rows = 10;
 
 
   constructor(
@@ -76,6 +81,31 @@ export class ListUsersComponent implements OnInit {
     })
 
   }
+
+  next() {
+        this.first = this.first + this.rows;
+    }
+
+    prev() {
+        this.first = this.first - this.rows;
+    }
+
+    reset() {
+        this.first = 0;
+    }
+
+    pageChange(event: any) {
+        this.first = event.first;
+        this.rows = event.rows;
+    }
+
+    isLastPage(): boolean {
+        return this.users_props ? this.first + this.rows >= this.users_props.length : true;
+    }
+
+    isFirstPage(): boolean {
+        return this.users_props ? this.first === 0 : true;
+    }
 
   
 
