@@ -13,6 +13,7 @@ export const endpointPaths = {
   _urlcreateVisitType: "createVisitortype",
   _urlgetUsertype: "getUsertype",
   _urlusersbyProp: "users_by_property",
+  _urlTempPass: "users_temp_pass"
 
 
 } as const;

@@ -21,6 +21,7 @@ export class ListUsersComponent implements OnInit {
   ];
 
   users_props: any[] = [];
+  users_temp_pass: any[] = [];
   loading = true;
   currUser: any;
 
@@ -33,28 +34,47 @@ export class ListUsersComponent implements OnInit {
     const stored = localStorage.getItem('curr_user');
     if (stored) {
       this.currUser = JSON.parse(stored);
-      console.log('Curr User:', this.currUser);
-      console.log('CommID', this.currUser.comm_id);
+      // console.log('Curr User:', this.currUser);
+      // console.log('CommID', this.currUser.comm_id);
       
     }
     this.getUserProp();
+    this.getusersTempPass();
   }
 
   getUserProp() {
-  const propID = this.currUser.comm_id
-  
-  this.custService.getUserByProperty(propID).subscribe({
-    next: (data: any) => {
-      this.users_props = data;
-      console.log('UserProp Data', this.users_props);
-      
-      this.loading =false
-    },
-    error: (err) => {
-      console.log('Error fetching the User Props', err);
-      
-    }
-  })
+    const propID = this.currUser.comm_id
+    
+    this.custService.getUserByProperty(propID).subscribe({
+      next: (data: any) => {
+        this.users_props = data;
+        console.log('UserProp Data', this.users_props);
+        
+        this.loading =false
+      },
+      error: (err) => {
+        console.log('Error fetching the User Props', err);
+        
+      }
+    })
+  }
+
+  getusersTempPass(){
+    const propID = this.currUser.comm_id
+    
+    this.custService.getUserwithTempPass(propID).subscribe({
+      next: (data: any) => {
+        this.users_temp_pass = data;
+        console.log('UserTemp Data', this.users_temp_pass);
+        
+        this.loading =false
+      },
+      error: (err) => {
+        console.log('Error fetching the User Props', err);
+        
+      }
+    })
+
   }
 
   

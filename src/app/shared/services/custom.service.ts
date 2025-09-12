@@ -40,4 +40,8 @@ export class CustomService {
     return this.http.get(this.constructUrl('_urlusersbyProp', {propID}), this.httpOptions)
   }
 
+  getUserwithTempPass(propID: number) {
+    return this.http.get(this.constructUrl('_urlTempPass', {propID}), this.httpOptions)
+  }
+
 }
