@@ -15,7 +15,7 @@ export const PROPERTIES_ROUTE: Route[] = [
     component: CreateUsersComponent,
   },
   {
-    path: 'list_users',
+    path: 'list-users',
     component: ListUsersComponent,
   },
   { path: '**', component: Page404Component },

@@ -34,7 +34,7 @@ export class AuthGuard {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const currentUser = this.authService.currentUserValue;
 
-    console.log('Current User from AuthGuard:', currentUser);
+    // console.log('Current User from AuthGuard:', currentUser);
     
     // 1. Check if the user is logged in
     if (!currentUser) {
